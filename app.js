@@ -90,10 +90,6 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true,
 }))
 
-app.post('/graphql', (req, res) => {
-  console.log("test")
-})
-
 const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
