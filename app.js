@@ -90,6 +90,11 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true,
 }))
 
+// Health check for github actions CD
+app.get('/health', (req, res) => {
+  res.status(200).end()
+})
+
 const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
