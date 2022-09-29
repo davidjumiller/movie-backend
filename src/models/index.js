@@ -1,5 +1,3 @@
-const Movie = require('./Movie')
-
-Movie.sync()
+let Movie = require('./Movie')
 
 module.exports = { Movie }
