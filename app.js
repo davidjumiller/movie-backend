@@ -90,8 +90,9 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true,
 }))
 
-app.post('/graphql', (req, res) => {
-  console.log("test")
+// Health check for github actions CD
+app.get('/health', (req, res) => {
+  res.status(200).end()
 })
 
 const server = app.listen(PORT, () => {

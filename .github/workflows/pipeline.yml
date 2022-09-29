@@ -18,17 +18,17 @@ jobs:
           node-version: '16'
       - name: npm install
         run: npm install
-  # Deploy:
-  #   runs-on: ubuntu-22.04
-  #   needs: [Build-Test]
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - if: ${{ github.event_name == 'push' }}
-  #       name: Deploy to Heroku
-  #       uses: AkhileshNS/heroku-deploy@v3.12.12
-  #       with:
-  #         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-  #         heroku_app_name: ""
-  #         heroku_email: "davidjumiller@gmail.com"
-  #         healthcheck: "/health"
-  #         rollbackonhealthcheckfailed: true
+  Deploy:
+    runs-on: ubuntu-22.04
+    needs: [Build-Test]
+    steps:
+      - uses: actions/checkout@v3
+      - if: ${{ github.event_name == 'push' }}
+        name: Deploy to Heroku
+        uses: AkhileshNS/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "peaceful-depths-73716"
+          heroku_email: "davidjumiller@gmail.com"
+          healthcheck: "https://peaceful-depths-73716.herokuapp.com/health"
+          rollbackonhealthcheckfailed: true
