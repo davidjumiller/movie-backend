@@ -2,7 +2,7 @@
 
 Live Deployment: https://peaceful-depths-73716.herokuapp.com/graphql
 
-A simple CRUD API built with Node, express, graphql, sequelize, and postgreSQL
+A simple CRUD API built with Node, express, graphql, sequelize, and postgreSQL, currently no front end application is available.
 
 After connecting a suitable database, start the application with:
 ```
@@ -28,4 +28,11 @@ type Mutation {
 }
 ```
 
-Currently no front end application available.
+Sample Movie Input:
+```
+title: "Sample Title"
+description: "A description of the movie"
+releaseYear: 2022
+duration: "00:00:00"
+rating: 4.1
+```
