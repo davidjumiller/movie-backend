@@ -18,6 +18,6 @@ const Movie = sequelize.define('Movie', {
   rating: {
     type: DataTypes.FLOAT
   }
-})
+}, { initialAutoIncrement: 1 })
 
 module.exports = Movie
