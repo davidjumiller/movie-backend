@@ -5,6 +5,7 @@ const { graphqlHTTP } = require('express-graphql')
 const { PORT } = require('./src/util/config')
 const { movieSchema } = require('./src/schema/movie_schema')
 const { movieResolvers } = require('./src/schema/movie_resolvers')
+require('./src/models')
 
 const app = express()
 
