@@ -1,0 +1,32 @@
+{
+  "name": "movie-backend",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node app.js",
+    "dev": "cross-env NODE_ENV=development nodemon app.js",
+    "test": "cross-env NODE_ENV=test echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "pg": "^8.8.0",
+    "sequelize": "^6.23.2"
+  },
+  "devDependencies": {
+    "jest": "^29.1.1",
+    "nodemon": "^2.0.20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidjumiller/movie-backend.git"
+  },
+  "author": "David Miller",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davidjumiller/movie-backend/issues"
+  },
+  "homepage": "https://github.com/davidjumiller/movie-backend#readme",
+  "description": ""
+}
