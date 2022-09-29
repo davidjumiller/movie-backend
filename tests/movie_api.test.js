@@ -1,9 +1,11 @@
 const EasyGraphQLTester = require('easygraphql-tester')
-const { schema, server, root } = require('../app')
+const { server } = require('../app')
 const { Movie } = require('../src/models')
+const { movieSchema } = require('../src/schema/movie_schema')
+const { movieResolvers } = require('../src/schema/movie_resolvers')
 const moviesExample = require('./data_examples/movies_example')
 
-const tester = new EasyGraphQLTester(schema)
+const tester = new EasyGraphQLTester(movieSchema)
 
 beforeAll(async () => {
   await Movie.destroy({
@@ -26,7 +28,7 @@ describe('Queries', () => {
         title 
       }
     }`
-    const response = await tester.graphql(query, root, undefined)
+    const response = await tester.graphql(query, movieResolvers, undefined)
     expect(response.data.allMovies.length).toBe(2)
   })
 
@@ -37,15 +39,14 @@ describe('Queries', () => {
           title 
         }
       }`
-    const response = await tester.graphql(query, root, undefined, { title: "#1"})
-    console.log(response.data)
+    const response = await tester.graphql(query, movieResolvers, undefined, { title: "#1"})
     expect(response.data.findMovies.length).toBe(1)
     expect(response.data.findMovies[0].title).toBe("Test Movie #1")
   })
 })
 
 describe('Mutations', () => {
-  test('addMovie successfully adds', async () => {
+  test('addMovie successfully', async () => {
     const mutation = `
       mutation TEST($input: MovieInput) {
         addMovie(input: $input) {
@@ -57,9 +58,10 @@ describe('Mutations', () => {
       description: "TestDesc",
       releaseYear: 2022,
       duration: "00:00:00",
-      rating: 2.4
+      rating: 2.4,
+      likes: 0
     }
-    const response = await tester.graphql(mutation, root, undefined, { input: newMovie })
+    const response = await tester.graphql(mutation, movieResolvers, undefined, { input: newMovie })
     expect(response.data.addMovie.title).toBe("TestTitle")
   })
 
@@ -70,7 +72,7 @@ describe('Mutations', () => {
           id
         }
       }`
-    let response = await tester.graphql(query, root, undefined)
+    let response = await tester.graphql(query, movieResolvers, undefined)
     const id = response.data.allMovies[0].id
     const mutation = `
       mutation TEST($id: Int!, $input: MovieInput) {
@@ -85,7 +87,7 @@ describe('Mutations', () => {
       duration: "00:00:00",
       rating: 2.4
     }
-    response = await tester.graphql(mutation, root, undefined, { id: id, input: newMovie })
+    response = await tester.graphql(mutation, movieResolvers, undefined, { id: id, input: newMovie })
     expect(response.data.updateMovie.title).toBe("Modified")
   })
 
@@ -96,7 +98,7 @@ describe('Mutations', () => {
         id
       }
     }`
-    let response = await tester.graphql(query, root, undefined)
+    let response = await tester.graphql(query, movieResolvers, undefined)
     const id = response.data.allMovies[0].id
 
     const mutation = `
@@ -106,7 +108,30 @@ describe('Mutations', () => {
         }
       }`
 
-    response = await tester.graphql(mutation, root, undefined, { id: id})
+    response = await tester.graphql(mutation, movieResolvers, undefined, { id: id})
     expect(response.data.deleteMovie.id).toBe(id)
+  })
+
+  test('increment like count', async () => {
+    const query = `
+    { 
+      allMovies {
+        id
+        likes
+      }
+    }`
+    let response = await tester.graphql(query, movieResolvers, undefined)
+    const id = response.data.allMovies[0].id
+    const prevLikeCount = response.data.allMovies[0].likes
+    const mutation = `
+      mutation TEST($id: Int!) {
+        incrementLikeCount(id: $id) {
+          id
+          likes
+        }
+      }`
+
+    response = await tester.graphql(mutation, movieResolvers, undefined, { id: id })
+    expect(response.data.incrementLikeCount.likes).toBe(prevLikeCount+1)
   })
 })

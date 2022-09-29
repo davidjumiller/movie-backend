@@ -3,6 +3,7 @@ const { DATABASE_URL, sequelizeOptions } = require('./config')
 
 const sequelize = new Sequelize(DATABASE_URL, sequelizeOptions)
 
+// Connect to postgreSQL through sequelize
 const connectToDB = async () => {
   try {
     await sequelize.authenticate()
