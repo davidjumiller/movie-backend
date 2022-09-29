@@ -17,6 +17,9 @@ const Movie = sequelize.define('Movie', {
   },
   rating: {
     type: DataTypes.FLOAT
+  },
+  likes: {
+    type: DataTypes.INTEGER
   }
 }, { initialAutoIncrement: 1 })
 
