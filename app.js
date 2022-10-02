@@ -2,6 +2,8 @@ const express = require('express')
 const cors = require('cors')
 const { graphqlHTTP } = require('express-graphql')
 
+require('./src/models')
+require('./src/util/db').connectToDB
 const { PORT } = require('./src/util/config')
 const { movieSchema } = require('./src/schema/movie_schema')
 const { movieResolvers } = require('./src/schema/movie_resolvers')

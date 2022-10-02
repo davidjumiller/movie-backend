@@ -8,6 +8,7 @@ const moviesExample = require('./data_examples/movies_example')
 const tester = new EasyGraphQLTester(movieSchema)
 
 beforeAll(async () => {
+  await Movie.sync()
   await Movie.destroy({
     where: {},
     truncate: true
