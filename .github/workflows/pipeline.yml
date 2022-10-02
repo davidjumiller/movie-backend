@@ -8,16 +8,23 @@ on:
     branches: [main]
     types: [opened, synchronize]
 
+env:
+  DB_HOST: localhost
+  DB_PORT: 5432
+  DB_NAME: postgres
+  DB_USER: postgres
+  DB_PASSWORD: password
+
 jobs:
   Build-Test:
     runs-on: ubuntu-22.04
     services:
       postgres:
         image: postgres
-        env:
-          POSTGRES_DB: postgres        
-          POSTGRES_PASSWORD: password
-          POSTGRES_USER: postgres
+        env: 
+          POSTGRES_DB: ${{ env.DB_NAME }}
+          POSTGRES_USER: ${{ env.DB_USER }}
+          POSTGRES_PASSWORD: ${{ env.DB_PASSWORD }}
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -34,7 +41,7 @@ jobs:
           node-version: '16'
       - name: npm install
         run: npm install
-      - name: npm Build-Test
+      - name: npm test
         run: npm test
   Deploy:
     runs-on: ubuntu-22.04

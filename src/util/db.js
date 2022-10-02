@@ -1,14 +1,14 @@
 const { Sequelize } = require('sequelize')
-const { DATABASE_URL, sequelizeOptions } = require('./config')
+const { DATABASE_URL, DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD, sequelizeOptions } = require('./config')
 
 let sequelize
 if (DATABASE_URL) {
   sequelize = new Sequelize(DATABASE_URL, sequelizeOptions)
 } else {
   // This is for connecting to a new postgres instance created through github actions
-  sequelize = new Sequelize('postgres', 'postgres', 'password', {
-    host: 'localhost',
-    port: 5432,
+  sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
+    host: DB_HOST,
+    port: DB_PORT,
     dialect: 'postgres'
   }, sequelizeOptions)
 }
